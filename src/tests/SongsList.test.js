@@ -7,28 +7,39 @@ Enzyme.configure({ adapter: new Adapter() });
 
 describe('<SongsList />', () => {
 
-  it('by default renders an empty SongsList', () => {
+  let song;
+  let songs;
+  let songLiChildren;
+
+  beforeEach(() => {
+    song  = {title: 'a title', artist: 'an artist', position: 3};
+    songs = [song];
+    songLiChildren = `${song.position}: ${song.title} - ${song.artist}`;
+  })
+
+  it('should by default render one empty ul', () => {
     const songList = shallow(<SongsList />);
     expect((songList).contains(<ul></ul>)).toBe(true);
     expect((songList).find('ul').length).toEqual(1);
   });
 
   it('should display one li for a song if a single song object is passed in', () => {
-    const song      = {title: 'a title', artist: 'an artist', position: 3};
-    const songs     = [song];
+    const songList = shallow(<SongsList songs={songs}/>);
+
+    expect((songList).find('li').length).toEqual(1);
+  });
+
+  it('should display an li in the expected form when a song object is passed in', () => {
     const songList  = shallow(<SongsList songs={songs}/>);
-    const songLiChildren = `${song.position}: ${song.title} - ${song.artist}`
     const li = <li key={song.position}>{song.position}: {song.title} - {song.artist}</li>
 
     expect((songList).contains(li)).toBe(true);
-    expect((songList).find('li').length).toEqual(1);
-    expect(render(songList).text()).toEqual(songLiChildren)
+    expect((songList).text()).toEqual(songLiChildren)
 
     const actual    = songList.find('ul').html()
-    console.log(actual);
-    const expected  = `<li>3: a title - an artist</li>`;
+    const expected  = `<ul><li>3: a title - an artist</li></ul>`;
     expect(actual.indexOf(expected) > -1).toBe(true);
-  });
+  })
 
 
 })
