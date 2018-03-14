@@ -44,17 +44,7 @@ class TopTwentySongsContainer extends Component {
   }
 
   render(){
-    if(this.state.topSongsDataToShow.length > 0){
-      return (
-        <div>
-          <p>{this.state.topSongsDataToShow[0].position}</p>
-          <p>{this.state.topSongsDataToShow[0].title}</p>
-          <p>{this.state.topSongsDataToShow[0].artist}</p>
-        </div>
-      );
-    } else {
-      return null;
-    }
+    return <SongsList songs={this.state.topSongsDataToShow}/>;
   }
 
 }
