@@ -14,8 +14,8 @@ describe('<SongsList />', () => {
   let songLiChildren;
 
   beforeEach(() => {
-    song  = {title: 'a title', artist: 'an artist', position: 3};
-    song2 = {title: 'another title', artist: 'another artist', position: 1}
+    song  = {title: 'a title', artist: 'an artist', position: 1};
+    song2 = {title: 'another title', artist: 'another artist', position: 3}
     songs = [song];
     songsAllTwo     = [song2, song];
     songLiChildren  = `${song.position}: ${song.title} - ${song.artist}`;
@@ -40,14 +40,25 @@ describe('<SongsList />', () => {
     expect((songList).contains(li)).toBe(true);
     expect((songList).text()).toEqual(songLiChildren)
 
-    const actual    = songList.find('ul').html()
-    const expected  = `<ul><li>3: a title - an artist</li></ul>`;
+    const actual    = songList.find('ul').html();
+    const expected  = `<ul><li>1: a title - an artist</li></ul>`;
     expect(actual.indexOf(expected) > -1).toBe(true);
   })
 
   it('should render two li elements if an array with two songs objects is given', () => {
     const songList = shallow(<SongsList songs={songsAllTwo} />);
     expect((songList).find('li').length).toEqual(2);
+  })
+
+  it('should display the second li in the expected form as well', () => {
+    const songList  = shallow(<SongsList songs={songsAllTwo} />);
+    const actual    = songList.find('ul').html();
+    console.log(typeof actual);
+    console.log(actual);
+    const expected  = '<li>3: another title - another artist</li>'
+    console.log(typeof expected);
+    console.log(expected);
+    expect(actual.indexOf(expected) > -1).toBe(true);
   })
 
 
