@@ -8,13 +8,17 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('<SongsList />', () => {
 
   let song;
+  let song2;
   let songs;
+  let songsAllTwo;
   let songLiChildren;
 
   beforeEach(() => {
     song  = {title: 'a title', artist: 'an artist', position: 3};
+    song2 = {title: 'another title', artist: 'another artist', position: 1}
     songs = [song];
-    songLiChildren = `${song.position}: ${song.title} - ${song.artist}`;
+    songsAllTwo     = [song2, song];
+    songLiChildren  = `${song.position}: ${song.title} - ${song.artist}`;
   })
 
   it('should by default render one empty ul', () => {
@@ -39,6 +43,11 @@ describe('<SongsList />', () => {
     const actual    = songList.find('ul').html()
     const expected  = `<ul><li>3: a title - an artist</li></ul>`;
     expect(actual.indexOf(expected) > -1).toBe(true);
+  })
+
+  it('should render two li elements if an array with two songs objects is given', () => {
+    const songList = shallow(<SongsList songs={songsAllTwo} />);
+    expect((songList).find('li').length).toEqual(2);
   })
 
 
